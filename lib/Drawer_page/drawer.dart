@@ -1,0 +1,175 @@
+import 'package:flutter/material.dart';
+import 'package:reserveeats/Drawer_page/rateus.dart';
+import 'package:reserveeats/Start_page/loginsignin.dart';
+import 'package:reserveeats/Cart_page/main_cart.dart';
+import 'package:reserveeats/Cart_page/cartmodel.dart';
+import 'package:reserveeats/Drawer_page/promo.dart';
+import 'package:reserveeats/BotNavBar_page/booking_page.dart';
+import 'package:reserveeats/Profile_page/main.dart';
+
+import '../BotNavBar_page/myaccount.dart';
+
+class MyHeaderDrawer extends StatefulWidget {
+  @override
+  _MyHeaderDrawerState createState() => _MyHeaderDrawerState();
+}
+
+class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.amber,
+      width: double.infinity,
+      height: 210,
+      padding: EdgeInsets.only(top: 20.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            margin: EdgeInsets.only(bottom: 10),
+            height: 70,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: NetworkImage(
+                      "https://images.pexels.com/photos/2787310/pexels-photo-2787310.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"),
+                )),
+          ),
+          Text(
+            "Bon Appetit!",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          Text(
+            "User one",
+            style: TextStyle(color: Colors.grey[200], fontSize: 14),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MyDrawerList extends StatefulWidget {
+  @override
+  _MyDrawerListState createState() => _MyDrawerListState();
+}
+
+class _MyDrawerListState extends State<MyDrawerList> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.all(6),
+          height: 45,
+          child: TextButton.icon(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Profile()));
+              },
+              icon: Icon(
+                Icons.people_alt_outlined,
+                color: Colors.black,
+              ),
+              label: Text(
+                "Account",
+                style: TextStyle(color: Colors.black, fontSize: 18),
+              )),
+        ),
+        Divider(),
+        Container(
+          margin: EdgeInsets.all(6),
+          height: 45,
+          child: TextButton.icon(
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Cart(model: CartModel(),
+  )));
+              },
+              icon: Icon(
+                Icons.shopping_cart_outlined,
+                color: Colors.black,
+              ),
+              label: Text(
+                "Cart",
+                style: TextStyle(color: Colors.black, fontSize: 18),
+              )),
+        ),
+        Divider(),
+        Container(
+          margin: EdgeInsets.all(6),
+          height: 45,
+          child: TextButton.icon(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => BookingNow()));
+              },
+              icon: Icon(
+                Icons.book_outlined,
+                color: Colors.black,
+              ),
+              label: Text(
+                "Reservation",
+                style: TextStyle(color: Colors.black, fontSize: 18),
+              )),
+        ),
+        Divider(),
+        Container(
+          margin: EdgeInsets.all(6),
+          height: 45,
+          child: TextButton.icon(
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Promo()));
+              },
+              icon: Icon(
+                Icons.discount_outlined,
+                color: Colors.black,
+              ),
+              label: Text(
+                "Promo",
+                style: TextStyle(color: Colors.black, fontSize: 18),
+              )),
+        ),
+        Divider(),
+        Container(
+          margin: EdgeInsets.all(6),
+          height: 45,
+          child: TextButton.icon(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LoginSignupScreen()));
+              },
+              icon: Icon(
+                Icons.logout_outlined,
+                color: Colors.black,
+              ),
+              label: Text(
+                "Log Out",
+                style: TextStyle(color: Colors.black, fontSize: 18),
+              )),
+        ),
+        Divider(),
+        Container(
+          margin: EdgeInsets.all(6),
+          height: 45,
+          child: TextButton.icon(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => RateApp()));
+              },
+              icon: Icon(
+                Icons.star_border_outlined,
+                color: Colors.black,
+              ),
+              label: Text(
+                "Rate Us",
+                style: TextStyle(color: Colors.black, fontSize: 18),
+              )),
+        ),
+      ],
+    );
+  }
+}
