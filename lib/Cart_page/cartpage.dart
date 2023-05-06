@@ -12,6 +12,38 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
+    void showCartAlertDialog(BuildContext context, CartModel cart) {
+      // buat list item dengan data dari CartModel
+      print(cart);
+    }
+
+    void _onButtonPressed() {
+      // Tampilkan alert dengan nilai inputan
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Inputan Anda'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: [
+                  Text('Email: Halo'),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     // TODO: implement build
     return Scaffold(
         appBar: AppBar(
@@ -95,10 +127,14 @@ class _CartPageState extends State<CartPage> {
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.yellow[900],
-                        elevation: 0),
-                        child: Text("BUY NOW", style: TextStyle(color: Colors.white,)),
-                        onPressed: () {},
+                            backgroundColor: Colors.yellow[900], elevation: 0),
+                        child: Text("BUY NOW",
+                            style: TextStyle(
+                              color: Colors.white,
+                            )),
+                        onPressed: () {
+                          // showCartAlertDialog(context, CartModel);
+                        },
                       ))
                 ])));
   }

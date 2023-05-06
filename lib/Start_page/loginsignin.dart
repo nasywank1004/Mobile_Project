@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:reserveeats/BotNavBar_page/menu.dart';
 
 class LoginSignupUI extends StatelessWidget {
   const LoginSignupUI({required Key key}) : super(key: key);
@@ -83,7 +87,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             ),
           ),
           // Trick to add the shadow for the submit button
-          buildBottomHalfContainer(true),
+          // buildBottomHalfContainer(true),
           //Main Contianer for Login and Signup
           AnimatedPositioned(
             duration: Duration(milliseconds: 700),
@@ -175,7 +179,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             ),
           ),
           // Trick to add the submit button
-          buildBottomHalfContainer(false),
+          // buildBottomHalfContainer(false),
           // Bottom buttons
           Positioned(
             top: MediaQuery.of(context).size.height - 100,
@@ -205,13 +209,130 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
   }
 
   Container buildSigninSection() {
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    bool isRememberMe = false;
+    final url = Uri.parse('http://127.0.0.1:1234/login');
+
+    void _onButtonPressed() async {
+      final email = emailController.text;
+      final password = passwordController.text;
+      // bool rememberMe = isRememberMe;
+
+      final response =
+          await http.post(url, body: {'email': email, 'password': password});
+
+      if (response.statusCode == 200) {
+        final emailAcc = json.decode(response.body)["email"];
+        final usernameAcc = json.decode(response.body)["username"];
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('email', emailAcc);
+        // final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('username', usernameAcc);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
+        // showDialog(
+        //   context: context,
+        //   builder: (BuildContext context) {
+        //     return AlertDialog(
+        //       title: Text('Hasil'),
+        //       content: SingleChildScrollView(
+        //         child: ListBody(
+        //           children: [Text('${emailAcc}')],
+        //         ),
+        //       ),
+        //       actions: [
+        //         TextButton(
+        //           child: Text('OK'),
+        //           onPressed: () {
+        //             Navigator.of(context).pop();
+        //           },
+        //         ),
+        //       ],
+        //     );
+        //   },
+        // );
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Hasil'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: [Text('User Tidak Ditemukan')],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
+
     return Container(
       margin: EdgeInsets.only(top: 20),
       child: Column(
         children: [
-          buildTextField(Icons.mail_outline, "info@demouri.com", false, true),
-          buildTextField(
-              MaterialCommunityIcons.lock_outline, "**********", true, false),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: TextField(
+              controller: emailController,
+              obscureText: false,
+              keyboardType:
+                  true ? TextInputType.emailAddress : TextInputType.text,
+              decoration: InputDecoration(
+                prefixIcon: Icon(
+                  Icons.mail_outline,
+                  color: Palette.iconColor,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Palette.textColor1),
+                  borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Palette.textColor1),
+                  borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                ),
+                contentPadding: EdgeInsets.all(10),
+                hintText: "info@demouri.com",
+                hintStyle: TextStyle(fontSize: 14, color: Palette.textColor1),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: TextField(
+              controller: passwordController,
+              obscureText: true,
+              keyboardType:
+                  false ? TextInputType.emailAddress : TextInputType.text,
+              decoration: InputDecoration(
+                prefixIcon: Icon(
+                  MaterialCommunityIcons.lock_outline,
+                  color: Palette.iconColor,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Palette.textColor1),
+                  borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Palette.textColor1),
+                  borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                ),
+                contentPadding: EdgeInsets.all(10),
+                hintText: "********",
+                hintStyle: TextStyle(fontSize: 14, color: Palette.textColor1),
+              ),
+            ),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -234,25 +355,210 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                 onPressed: () {},
                 child: Text("Forgot Password?",
                     style: TextStyle(fontSize: 12, color: Palette.textColor1)),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: ElevatedButton(
+                  onPressed: () {
+                    _onButtonPressed();
+                  },
+                  child: Text('Login'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.amber,
+                    onPrimary: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
               )
             ],
-          )
+          ),
         ],
       ),
     );
   }
 
   Container buildSignupSection() {
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController usernameController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    // bool isMale = false;
+    final url = Uri.parse('http://127.0.0.1:1234/register');
+
+    void _onButtonPressed() async {
+      final email = emailController.text;
+      final username = usernameController.text;
+      final password = passwordController.text;
+      final gender = isMale ? "L" : "F";
+      // bool rememberMe = isRememberMe;
+
+      final response = await http.post(url, body: {
+        'username': username,
+        'email': email,
+        'gender': gender,
+        'password': password
+      });
+
+      if (response.statusCode == 200) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Hasil'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: [Text('Register Berhasil, Harap Login Kembali')],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+        // }
+
+        // showDialog(
+        //   context: context,
+        //   builder: (BuildContext context) {
+        //     return AlertDialog(
+        //       title: Text('Hasil'),
+        //       content: SingleChildScrollView(
+        //         child: ListBody(
+        //           children: [Text('${emailAcc}')],
+        //         ),
+        //       ),
+        //       actions: [
+        //         TextButton(
+        //           child: Text('OK'),
+        //           onPressed: () {
+        //             Navigator.of(context).pop();
+        //           },
+        //         ),
+        //       ],
+        //     );
+        //   },
+        // );
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Hasil'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: [Text('Register Gagal, Coba Lagi')],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
+
     return Container(
       margin: EdgeInsets.only(top: 20),
       child: Column(
         children: [
-          buildTextField(MaterialCommunityIcons.account_outline, "User Name",
-              false, false),
-          buildTextField(
-              MaterialCommunityIcons.email_outline, "email", false, true),
-          buildTextField(
-              MaterialCommunityIcons.lock_outline, "password", true, false),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: TextField(
+              controller: usernameController,
+              obscureText: false,
+              keyboardType:
+                  false ? TextInputType.emailAddress : TextInputType.text,
+              decoration: InputDecoration(
+                prefixIcon: Icon(
+                  MaterialCommunityIcons.account_outline,
+                  color: Palette.iconColor,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Palette.textColor1),
+                  borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Palette.textColor1),
+                  borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                ),
+                contentPadding: EdgeInsets.all(10),
+                hintText: "Username",
+                hintStyle: TextStyle(fontSize: 14, color: Palette.textColor1),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: TextField(
+              controller: emailController,
+              obscureText: false,
+              keyboardType:
+                  true ? TextInputType.emailAddress : TextInputType.text,
+              decoration: InputDecoration(
+                prefixIcon: Icon(
+                  MaterialCommunityIcons.email_outline,
+                  color: Palette.iconColor,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Palette.textColor1),
+                  borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Palette.textColor1),
+                  borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                ),
+                contentPadding: EdgeInsets.all(10),
+                hintText: "Email",
+                hintStyle: TextStyle(fontSize: 14, color: Palette.textColor1),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: TextField(
+              controller: passwordController,
+              obscureText: true,
+              keyboardType:
+                  false ? TextInputType.emailAddress : TextInputType.text,
+              decoration: InputDecoration(
+                prefixIcon: Icon(
+                  MaterialCommunityIcons.lock_outline,
+                  color: Palette.iconColor,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Palette.textColor1),
+                  borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Palette.textColor1),
+                  borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                ),
+                contentPadding: EdgeInsets.all(10),
+                hintText: "Password",
+                hintStyle: TextStyle(fontSize: 14, color: Palette.textColor1),
+              ),
+            ),
+          ),
+          // buildTextField(MaterialCommunityIcons.account_outline, "User Name",
+          //     false, false),
+          // buildTextField(
+          //     MaterialCommunityIcons.email_outline, "email", false, true),
+          // buildTextField(
+          //     MaterialCommunityIcons.lock_outline, "password", true, false),
           Padding(
             padding: const EdgeInsets.only(top: 10, left: 10),
             child: Row(
@@ -331,23 +637,23 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
               ],
             ),
           ),
-          Container(
-            width: 200,
-            margin: EdgeInsets.only(top: 20),
-            child: RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                  text: "By pressing 'Submit' you agree to our ",
-                  style: TextStyle(color: Palette.textColor2),
-                  children: [
-                    TextSpan(
-                      //recognizer: ,
-                      text: "term & conditions",
-                      style: TextStyle(color: Colors.amberAccent),
-                    ),
-                  ]),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: ElevatedButton(
+              onPressed: () {
+                _onButtonPressed();
+              },
+              child: Text('Sign Up'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.amber,
+                onPrimary: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
             ),
-          ),
+          )
         ],
       ),
     );
@@ -387,50 +693,84 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
       top: isSignupScreen ? 535 : 430,
       right: 0,
       left: 0,
-      child: Center(
-        child: Container(
-          height: 90,
-          width: 90,
-          padding: EdgeInsets.all(15),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(50),
-              boxShadow: [
-                if (showShadow)
-                  BoxShadow(
-                    color: Colors.black.withOpacity(.3),
-                    spreadRadius: 1.5,
-                    blurRadius: 10,
-                  )
-              ]),
-          child: !showShadow
-              ? Container(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Colors.orange, Colors.red],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight),
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black.withOpacity(.3),
-                            spreadRadius: 1,
-                            blurRadius: 2,
-                            offset: Offset(0, 1))
-                      ]),
-                  child: Icon(
-                    Icons.arrow_forward,
-                    color: Colors.white,
+      child: GestureDetector(
+        onTap: () {
+          // Handle the tap event here
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Hasil'),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: [
+                      Text('Test'),
+                      // Text('Selected Person : ${selectedPerson}'),
+                      // Text('Selected Time : ${selectedTime}')
+                    ],
                   ),
-                )
-              : Center(),
+                ),
+                actions: [
+                  TextButton(
+                    child: Text('OK'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        child: Center(
+          child: Container(
+            height: 90,
+            width: 90,
+            padding: EdgeInsets.all(15),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(50),
+                boxShadow: [
+                  if (showShadow)
+                    BoxShadow(
+                      color: Colors.black.withOpacity(.3),
+                      spreadRadius: 1.5,
+                      blurRadius: 10,
+                    )
+                ]),
+            child: !showShadow
+                ? Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [Colors.orange, Colors.red],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight),
+                        borderRadius: BorderRadius.circular(30),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black.withOpacity(.3),
+                              spreadRadius: 1,
+                              blurRadius: 2,
+                              offset: Offset(0, 1))
+                        ]),
+                    child: Icon(
+                      Icons.arrow_forward,
+                      color: Colors.blue,
+                    ),
+                  )
+                : Center(),
+          ),
         ),
       ),
     );
   }
 
   Widget buildTextField(
-      IconData icon, String hintText, bool isPassword, bool isEmail) {
+    IconData icon,
+    String hintText,
+    bool isPassword,
+    bool isEmail,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: TextField(
@@ -459,12 +799,11 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 }
 
 class Palette {
- static const Color iconColor = Color(0xFFB6C7D1);
- static const Color activeColor = Color(0xFF09126C);
- static const Color textColor1 = Color(0XFFA7BCC7);
- static const Color textColor2 = Color(0XFF9BB3C0);
- static const Color facebookColor = Color(0xFF3B5999);
- static const Color googleColor = Color(0xFFDE4B39);
- static const Color backgroundColor = Color(0xFFECF3F9);
+  static const Color iconColor = Color(0xFFB6C7D1);
+  static const Color activeColor = Color(0xFF09126C);
+  static const Color textColor1 = Color(0XFFA7BCC7);
+  static const Color textColor2 = Color(0XFF9BB3C0);
+  static const Color facebookColor = Color(0xFF3B5999);
+  static const Color googleColor = Color(0xFFDE4B39);
+  static const Color backgroundColor = Color(0xFFECF3F9);
 }
-
