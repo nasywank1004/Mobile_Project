@@ -181,28 +181,6 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
           // Trick to add the submit button
           // buildBottomHalfContainer(false),
           // Bottom buttons
-          Positioned(
-            top: MediaQuery.of(context).size.height - 100,
-            right: 0,
-            left: 0,
-            child: Column(
-              children: [
-                Text(isSignupScreen ? "Or Sign Up with" : "Or Login with"),
-                Container(
-                  margin: EdgeInsets.only(right: 20, left: 20, top: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      buildTextButton(MaterialCommunityIcons.facebook,
-                          "Facebook", Palette.facebookColor),
-                      buildTextButton(MaterialCommunityIcons.google_plus,
-                          "Google", Palette.googleColor),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          )
         ],
       ),
     );
