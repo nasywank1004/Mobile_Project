@@ -333,30 +333,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Checkbox(
-                    value: isRememberMe,
-                    activeColor: Palette.textColor2,
-                    onChanged: (value) {
-                      setState(() {
-                        isRememberMe = !isRememberMe;
-                      });
-                    },
-                  ),
-                  Text("Remember me",
-                      style: TextStyle(fontSize: 12, color: Palette.textColor1))
-                ],
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Text("Forgot Password?",
-                    style: TextStyle(fontSize: 12, color: Palette.textColor1)),
-              ),
-              Padding(
+          Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: ElevatedButton(
                   onPressed: () {
@@ -373,8 +350,6 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                   ),
                 ),
               )
-            ],
-          ),
         ],
       ),
     );
