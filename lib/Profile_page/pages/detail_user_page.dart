@@ -23,8 +23,7 @@ class DetailPlayer extends StatelessWidget {
         TextEditingController(text: selectPLayer.email);
     return Scaffold(
       appBar: AppBar(
-        title: Text("ReserveEats", style: TextStyle(
-                          color: Colors.white)),
+        title: Text("ReserveEats", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.amber,
       ),
       body: Padding(
@@ -33,24 +32,23 @@ class DetailPlayer extends StatelessWidget {
           child: Column(
             children: [
               ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      child: CachedNetworkImage(
-                        fit: BoxFit.cover,
-                              imageUrl: imageController.text,
-                              placeholder: (context, url) => CircularProgressIndicator(),
-                              errorWidget: (context, url, error) => Container(
-                                height: 50,
-                                width: 50,
-                                child: Image.network(
-                                  "https://i.pinimg.com/originals/09/04/9a/09049aa9d6e8cb79674ab772702b8c9b.jpg"),
-                              ),
-                          ),
+                borderRadius: BorderRadius.circular(50),
+                child: Container(
+                  width: 150,
+                  height: 150,
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    imageUrl: imageController.text,
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Container(
+                      height: 50,
+                      width: 50,
+                      child: Image.network(
+                          "https://i.pinimg.com/originals/09/04/9a/09049aa9d6e8cb79674ab772702b8c9b.jpg"),
                     ),
                   ),
-
+                ),
+              ),
               TextFormField(
                 autocorrect: false,
                 autofocus: true,
@@ -76,23 +74,23 @@ class DetailPlayer extends StatelessWidget {
                 textInputAction: TextInputAction.done,
                 controller: imageController,
                 onEditingComplete: () {
-                  users.editUser(
-                    UserId,
-                    nameController.text,
-                    phoneController.text,
-                    emailController.text,
-                    imageController.text,
-                    created
-                  ).then((value) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("Berhasil diubah"),
-        duration: Duration(seconds: 2),
-      ),
-    );
-    Navigator.pop(context);
-                    });
-                  
+                  users
+                      .editUser(
+                          UserId,
+                          nameController.text,
+                          phoneController.text,
+                          emailController.text,
+                          imageController.text,
+                          created)
+                      .then((value) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Berhasil diubah"),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                    Navigator.pop(context);
+                  });
                 },
               ),
               SizedBox(height: 50),
@@ -101,24 +99,24 @@ class DetailPlayer extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: OutlinedButton(
                   onPressed: () {
-                    users.editUser(
-                      UserId,
-                      nameController.text,
-                      phoneController.text,
-                      emailController.text,
-                      imageController.text,
-                      created
-                    ) .then((value) {
+                    users
+                        .editUser(
+                            UserId,
+                            nameController.text,
+                            phoneController.text,
+                            emailController.text,
+                            imageController.text,
+                            created)
+                        .then((value) {
                       ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("Berhasil diubah"),
-        duration: Duration(seconds: 2),
-      ),
-    );
-    Navigator.pop(context);
+                        SnackBar(
+                          content: Text("Berhasil diubah"),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                      Navigator.pop(context);
                     });
-                    
-                  },  
+                  },
                   child: Text(
                     "Edit",
                     style: TextStyle(

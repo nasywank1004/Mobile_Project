@@ -88,20 +88,6 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Container(
-                    height: 40.0,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: <Widget>[
-                        buildTopChip("healthy", true),
-                        buildTopChip("italian", false),
-                        buildTopChip("mexican", false),
-                        buildTopChip("asian", false),
-                        buildTopChip("chinese", false),
-                        buildTopChip("haitian", false),
-                      ],
-                    ),
-                  )
                 ],
               ),
             ),

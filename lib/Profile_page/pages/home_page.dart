@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void didChangeDependencies() {
-    if(isInit) {
+    if (isInit) {
       Provider.of<Users>(context).initialData();
     }
     isInit = false;
@@ -36,8 +36,7 @@ class _HomePageState extends State<HomePage> {
     final allUserProvider = Provider.of<Users>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("ReserveEats", style: TextStyle(
-                          color: Colors.white)),
+        title: Text("ReserveEats", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.amber,
         actions: [
           IconButton(
@@ -94,18 +93,19 @@ class _HomePageState extends State<HomePage> {
                       width: 50,
                       height: 50,
                       child: CachedNetworkImage(
-                              imageUrl: allUserProvider.allUser[index].imageUrl,
-                              placeholder: (context, url) => CircularProgressIndicator(),
-                              errorWidget: (context, url, error) => Container(
-                                height: 50,
-                                width: 50,
-                                child: Image.network(
-                                  "https://i.pinimg.com/originals/09/04/9a/09049aa9d6e8cb79674ab772702b8c9b.jpg"),
-                              ),
-                          ),
+                        imageUrl: allUserProvider.allUser[index].imageUrl,
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Container(
+                          height: 50,
+                          width: 50,
+                          child: Image.network(
+                              "https://i.pinimg.com/originals/09/04/9a/09049aa9d6e8cb79674ab772702b8c9b.jpg"),
+                        ),
+                      ),
                     ),
                   ),
-                   
+
                   title: Text(
                     allUserProvider.allUser[index].name,
                   ),
@@ -115,14 +115,13 @@ class _HomePageState extends State<HomePage> {
                   ),
                   trailing: IconButton(
                     onPressed: () {
-                      allUserProvider.deleteUser(id)
-                      . then((_){
+                      allUserProvider.deleteUser(id).then((_) {
                         ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("Berhasil dihapus"),
-        duration: Duration(milliseconds: 500),
-      ),
-    );
+                          SnackBar(
+                            content: Text("Berhasil dihapus"),
+                            duration: Duration(milliseconds: 500),
+                          ),
+                        );
                       });
                     },
                     icon: Icon(Icons.delete),

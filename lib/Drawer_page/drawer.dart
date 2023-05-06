@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reserveeats/BotNavBar_page/reservation_table.dart';
 import 'package:reserveeats/Drawer_page/rateus.dart';
+import 'package:reserveeats/Profile_page/pages/detail_user.dart';
 import 'package:reserveeats/Start_page/loginsignin.dart';
 import 'package:reserveeats/Cart_page/main_cart.dart';
 import 'package:reserveeats/Cart_page/cartmodel.dart';
@@ -82,6 +83,46 @@ class _MyDrawerListState extends State<MyDrawerList> {
           height: 45,
           child: TextButton.icon(
               onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => DetailUser()));
+              },
+              icon: Icon(
+                Icons.people_alt_outlined,
+                color: Colors.black,
+              ),
+              label: Text(
+                "Account",
+                style: TextStyle(color: Colors.black, fontSize: 18),
+              )),
+        ),
+        Divider(),
+        Container(
+          margin: EdgeInsets.all(6),
+          height: 45,
+          child: TextButton.icon(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Cart(
+                              model: CartModel(),
+                            )));
+              },
+              icon: Icon(
+                Icons.shopping_cart_outlined,
+                color: Colors.black,
+              ),
+              label: Text(
+                "Cart",
+                style: TextStyle(color: Colors.black, fontSize: 18),
+              )),
+        ),
+        Divider(),
+        Container(
+          margin: EdgeInsets.all(6),
+          height: 45,
+          child: TextButton.icon(
+              onPressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -93,6 +134,24 @@ class _MyDrawerListState extends State<MyDrawerList> {
               ),
               label: Text(
                 "Reservation",
+                style: TextStyle(color: Colors.black, fontSize: 18),
+              )),
+        ),
+        Divider(),
+        Container(
+          margin: EdgeInsets.all(6),
+          height: 45,
+          child: TextButton.icon(
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Promo()));
+              },
+              icon: Icon(
+                Icons.discount_outlined,
+                color: Colors.black,
+              ),
+              label: Text(
+                "Promo",
                 style: TextStyle(color: Colors.black, fontSize: 18),
               )),
         ),
@@ -115,6 +174,24 @@ class _MyDrawerListState extends State<MyDrawerList> {
               ),
               label: Text(
                 "Log Out",
+                style: TextStyle(color: Colors.black, fontSize: 18),
+              )),
+        ),
+        Divider(),
+        Container(
+          margin: EdgeInsets.all(6),
+          height: 45,
+          child: TextButton.icon(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => RateApp()));
+              },
+              icon: Icon(
+                Icons.star_border_outlined,
+                color: Colors.black,
+              ),
+              label: Text(
+                "Rate Us",
                 style: TextStyle(color: Colors.black, fontSize: 18),
               )),
         ),
