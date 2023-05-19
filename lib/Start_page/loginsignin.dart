@@ -5,9 +5,14 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:reserveeats/BotNavBar_page/menu.dart';
 
-class LoginSignupUI extends StatelessWidget {
-  const LoginSignupUI({required Key key}) : super(key: key);
+class LoginSignupUI extends StatefulWidget {
+  const LoginSignupUI({super.key});
 
+  @override
+  _LoginSignupUIState createState() => _LoginSignupUIState();
+}
+
+class _LoginSignupUIState extends State<LoginSignupUI> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,19 +23,41 @@ class LoginSignupUI extends StatelessWidget {
   }
 }
 
+// class LoginSignupUI extends StatelessWidget {
+//   const LoginSignupUI({required Key key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: "Login Signup UI",
+//       home: LoginSignupScreen(),
+//     );
+//   }
+// }
+
 class LoginSignupScreen extends StatefulWidget {
+  
   @override
   _LoginSignupScreenState createState() => _LoginSignupScreenState();
 }
 
 class _LoginSignupScreenState extends State<LoginSignupScreen> {
   bool isSignupScreen = true;
+  // _note = widget._note;
   bool isMale = true;
+  final TextEditingController usernameController = TextEditingController();
   bool isRememberMe = false;
+  final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    // String _emailInput = '';
+    // bool isRememberMe = false;
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Palette.backgroundColor,
       body: Stack(
         children: [
@@ -187,10 +214,23 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
   }
 
   Container buildSigninSection() {
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    bool isRememberMe = false;
-    final url = Uri.parse('http://127.0.0.1:1234/login');
+    // _note = widget._note;
+    final url = Uri.parse('http://10.0.2.2:5000/login');
+
+    @override
+    void dispose() {
+      emailController.dispose();
+      passwordController.dispose();
+      super.dispose();
+    }
+
+    // @override
+    // void initState() {
+    //   _note = widget._note;
+    //   _titleController.text = _note.title;
+    //   _descriptionController.text = _note.description;
+    //   super.initState();
+    // }
 
     void _onButtonPressed() async {
       final email = emailController.text;
@@ -263,6 +303,11 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             padding: const EdgeInsets.only(bottom: 8.0),
             child: TextField(
               controller: emailController,
+              // onChanged: (value) => {
+              //   setState((){
+              //     _emailInput : value;
+              //   })
+              // }
               obscureText: false,
               keyboardType:
                   true ? TextInputType.emailAddress : TextInputType.text,
@@ -334,11 +379,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
   }
 
   Container buildSignupSection() {
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController usernameController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
     // bool isMale = false;
-    final url = Uri.parse('http://127.0.0.1:1234/register');
+    final url = Uri.parse('http://10.0.2.2:5000/register');
 
     void _onButtonPressed() async {
       final email = emailController.text;

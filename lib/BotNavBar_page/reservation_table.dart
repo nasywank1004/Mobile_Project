@@ -20,7 +20,7 @@ class _ReservationTableState extends State<ReservationTable> {
 
   Future<void> _fetchReservations() async {
     final response =
-        await http.get(Uri.parse('http://127.0.0.1:1234/reservations'));
+        await http.get(Uri.parse('http://10.0.2.2:5000/reservations'));
     final data = json.decode(response.body)['results'] as List;
 
     setState(() {

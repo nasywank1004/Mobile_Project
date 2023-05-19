@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
   //   },
   // );
   Future<void> _submitBooking() async {
-    final url = Uri.parse('http://127.0.0.1:1234/post/test');
+    final url = Uri.parse('http://10.0.2.2:5000/post/test');
 
     final response = await http.post(
       url,
