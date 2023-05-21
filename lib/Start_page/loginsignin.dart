@@ -37,7 +37,6 @@ class _LoginSignupUIState extends State<LoginSignupUI> {
 // }
 
 class LoginSignupScreen extends StatefulWidget {
-  
   @override
   _LoginSignupScreenState createState() => _LoginSignupScreenState();
 }
@@ -49,10 +48,12 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
   final TextEditingController usernameController = TextEditingController();
   bool isRememberMe = false;
   final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    // String _emailInput = '';
-    // bool isRememberMe = false;
-
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController fotoController = TextEditingController();
+  final TextEditingController noTelpController = TextEditingController();
+  final TextEditingController alamatController = TextEditingController();
+  // String _emailInput = '';
+  // bool isRememberMe = false;
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +120,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
           AnimatedPositioned(
             duration: Duration(milliseconds: 700),
             curve: Curves.bounceInOut,
-            top: isSignupScreen ? 200 : 230,
+            top: isSignupScreen ? 200 : 280,
             child: AnimatedContainer(
               duration: Duration(milliseconds: 700),
               curve: Curves.bounceInOut,
@@ -189,7 +190,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               if (isSignupScreen)
                                 Container(
                                   margin: EdgeInsets.only(top: 3),
-                                  height: 2,
+                                  height: 5,
                                   width: 55,
                                   color: Colors.amberAccent,
                                 )
@@ -215,7 +216,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
   Container buildSigninSection() {
     // _note = widget._note;
-    final url = Uri.parse('http://10.0.2.2:5000/login');
+    final url = Uri.parse('http://127.0.0.1:5000/login');
 
     @override
     void dispose() {
@@ -243,10 +244,13 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
       if (response.statusCode == 200) {
         final emailAcc = json.decode(response.body)["email"];
         final usernameAcc = json.decode(response.body)["username"];
+        // final fotoAcc = json.decode(response.body)["foto"];
+        final fotoAcc = json.decode(response.body)["foto"];
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('email', emailAcc);
         // final prefs = await SharedPreferences.getInstance();
         await prefs.setString('username', usernameAcc);
+        await prefs.setString('foto', fotoAcc);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => HomePage()));
         // showDialog(
@@ -357,22 +361,22 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             ),
           ),
           Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                child: ElevatedButton(
-                  onPressed: () {
-                    _onButtonPressed();
-                  },
-                  child: Text('Login'),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.amber,
-                    onPrimary: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: ElevatedButton(
+              onPressed: () {
+                _onButtonPressed();
+              },
+              child: Text('Login'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.amber,
+                onPrimary: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
                 ),
-              )
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -380,12 +384,15 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
   Container buildSignupSection() {
     // bool isMale = false;
-    final url = Uri.parse('http://10.0.2.2:5000/register');
+    final url = Uri.parse('http://127.0.0.1:5000/register');
 
     void _onButtonPressed() async {
       final email = emailController.text;
       final username = usernameController.text;
       final password = passwordController.text;
+      final foto = fotoController.text;
+      final noTelp = noTelpController.text;
+      final alamat = alamatController.text;
       final gender = isMale ? "L" : "F";
       // bool rememberMe = isRememberMe;
 
@@ -393,7 +400,10 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
         'username': username,
         'email': email,
         'gender': gender,
-        'password': password
+        'password': password,
+        'foto': foto,
+        'no_telp': noTelp,
+        'alamat': alamat
       });
 
       if (response.statusCode == 200) {
@@ -518,6 +528,84 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                 ),
                 contentPadding: EdgeInsets.all(10),
                 hintText: "Email",
+                hintStyle: TextStyle(fontSize: 14, color: Palette.textColor1),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: TextField(
+              controller: fotoController,
+              obscureText: false,
+              keyboardType:
+                  false ? TextInputType.emailAddress : TextInputType.text,
+              decoration: InputDecoration(
+                prefixIcon: Icon(
+                  MaterialCommunityIcons.email_outline,
+                  color: Palette.iconColor,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Palette.textColor1),
+                  borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Palette.textColor1),
+                  borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                ),
+                contentPadding: EdgeInsets.all(10),
+                hintText: "Link Foto",
+                hintStyle: TextStyle(fontSize: 14, color: Palette.textColor1),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: TextField(
+              controller: noTelpController,
+              obscureText: false,
+              keyboardType:
+                  false ? TextInputType.emailAddress : TextInputType.text,
+              decoration: InputDecoration(
+                prefixIcon: Icon(
+                  MaterialCommunityIcons.email_outline,
+                  color: Palette.iconColor,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Palette.textColor1),
+                  borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Palette.textColor1),
+                  borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                ),
+                contentPadding: EdgeInsets.all(10),
+                hintText: "No Telp",
+                hintStyle: TextStyle(fontSize: 14, color: Palette.textColor1),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: TextField(
+              controller: alamatController,
+              obscureText: false,
+              keyboardType:
+                  false ? TextInputType.emailAddress : TextInputType.text,
+              decoration: InputDecoration(
+                prefixIcon: Icon(
+                  MaterialCommunityIcons.email_outline,
+                  color: Palette.iconColor,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Palette.textColor1),
+                  borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Palette.textColor1),
+                  borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                ),
+                contentPadding: EdgeInsets.all(10),
+                hintText: "Alamat",
                 hintStyle: TextStyle(fontSize: 14, color: Palette.textColor1),
               ),
             ),
