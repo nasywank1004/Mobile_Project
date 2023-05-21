@@ -18,17 +18,33 @@ class DetailUserState extends State<DetailUser> {
   String? foto;
   String? noTelp;
   String? alamat;
+final TextEditingController usernameController =
+        TextEditingController();
+    final TextEditingController emailController =
+        TextEditingController();
+    final TextEditingController genderController =
+        TextEditingController();
+    final TextEditingController fotoController =
+        TextEditingController();
+    final TextEditingController noTelpController =
+        TextEditingController();
+    final TextEditingController alamatController =
+        TextEditingController();
+  
 
   @override
   void initState() {
     super.initState();
     _fetchData();
+    
   }
+
+  
 
   void _fetchData() async {
     final prefs = await SharedPreferences.getInstance();
     final url =
-        Uri.parse('http://127.0.0.1:5000/getData/${prefs.getString("email")}');
+        Uri.parse('http://10.0.2.2:5000/getData/${prefs.getString("email")}');
     final response = await http.get(url);
     // setState(() {
     //   email = prefs.getString('email');
@@ -40,6 +56,11 @@ class DetailUserState extends State<DetailUser> {
       final fotoAcc = json.decode(response.body)["foto"];
       final noTelpAcc = json.decode(response.body)["no_telp"];
       final alamatAcc = json.decode(response.body)["alamat"];
+      usernameController.text = usernameAcc;
+      emailController.text = emailAcc;
+      fotoController.text = fotoAcc;
+      noTelpController.text = noTelpAcc;
+      alamatController.text = alamatAcc;
       setState(() {
         username = usernameAcc;
         email = emailAcc;
@@ -72,20 +93,9 @@ class DetailUserState extends State<DetailUser> {
       );
     }
   }
+  
 
   Widget build(BuildContext context) {
-    final TextEditingController usernameController =
-        TextEditingController(text: username);
-    final TextEditingController emailController =
-        TextEditingController(text: email);
-    final TextEditingController genderController =
-        TextEditingController(text: gender);
-    final TextEditingController fotoController =
-        TextEditingController(text: foto);
-    final TextEditingController noTelpController =
-        TextEditingController(text: noTelp);
-    final TextEditingController alamatController =
-        TextEditingController(text: alamat);
 
     void onButtonPressed() async {
       final email = emailController.text;
@@ -96,7 +106,7 @@ class DetailUserState extends State<DetailUser> {
       final prefs = await SharedPreferences.getInstance();
       // prefs.getString("email");
       final url =
-          Uri.parse("http://127.0.0.1:5000/update/${prefs.getString("email")}");
+          Uri.parse("http://10.0.2.2:5000/update/${prefs.getString("email")}");
       // bool rememberMe = isRememberMe;
 
       final response = await http.post(url, body: {
@@ -157,14 +167,16 @@ class DetailUserState extends State<DetailUser> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text("ReserveEats", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.amber,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
-        child: Form(
-          child: Column(
+        child: Container(
+          height: MediaQuery.of(context).size.height / 2,
+          child: ListView(
             children: [
               TextFormField(
                 autocorrect: false,
@@ -199,13 +211,18 @@ class DetailUserState extends State<DetailUser> {
                 controller: alamatController,
               ),
               Divider(),
-              ElevatedButton(
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ElevatedButton(
                 onPressed: () {
                   onButtonPressed();
                 },
                 child: Text("Edit Profile",
                     style: TextStyle(fontSize: 12, color: Colors.yellow[700])),
-              )
+              ),
+                )
+              ),
             ],
           ),
         ),

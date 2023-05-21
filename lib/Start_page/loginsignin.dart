@@ -216,7 +216,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
   Container buildSigninSection() {
     // _note = widget._note;
-    final url = Uri.parse('http://127.0.0.1:5000/login');
+    final url = Uri.parse('http://10.0.2.2:5000/login');
 
     @override
     void dispose() {
@@ -384,7 +384,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
   Container buildSignupSection() {
     // bool isMale = false;
-    final url = Uri.parse('http://127.0.0.1:5000/register');
+    final url = Uri.parse('http://10.0.2.2:5000/register');
 
     void _onButtonPressed() async {
       final email = emailController.text;
