@@ -20,6 +20,7 @@ class MyHeaderDrawer extends StatefulWidget {
 class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
   String? username;
   String? email;
+  String? foto;
 
   @override
   void initState() {
@@ -32,6 +33,7 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
     setState(() {
       email = prefs.getString('email');
       username = prefs.getString('username');
+      foto = prefs.getString('foto');
     });
   }
 
@@ -50,8 +52,7 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: NetworkImage(
-                      "https://images.pexels.com/photos/2787310/pexels-photo-2787310.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"),
+                  image: NetworkImage("${foto}"),
                 )),
           ),
           Text(

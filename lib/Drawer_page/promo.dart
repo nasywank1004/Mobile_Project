@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reserveeats/Drawer_page/drawer.dart';
 import 'package:reserveeats/Drawer_page/tile.dart';
+import 'package:reserveeats/BotNavBar_page/botnavbar.dart';
 
 class Promo extends StatefulWidget {
   @override
@@ -13,6 +14,19 @@ class _PromoState extends State<Promo> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.amber,
+        leading: InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MyBottomNavigationBar()));
+            ;
+          },
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+        ),
         title: Text('PROMO'),
         centerTitle: true,
       ),
@@ -44,7 +58,7 @@ class _PromoState extends State<Promo> {
           ActivityListTile(
               title: 'Reservation Promo',
               subtitle: 'Promo untuk makan bersama orang tercinta',
-              trailingImage: Image.asset("images/family.png",height: 90),
+              trailingImage: Image.asset("images/family.png", height: 90),
               color: Color.fromARGB(255, 250, 255, 108),
               gradient: Color.fromARGB(255, 255, 206, 58),
               onTab: () {})

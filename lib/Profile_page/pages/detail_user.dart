@@ -15,6 +15,9 @@ class DetailUserState extends State<DetailUser> {
   String? username;
   String? email;
   String? gender;
+  String? foto;
+  String? noTelp;
+  String? alamat;
 
   @override
   void initState() {
@@ -25,7 +28,7 @@ class DetailUserState extends State<DetailUser> {
   void _fetchData() async {
     final prefs = await SharedPreferences.getInstance();
     final url =
-        Uri.parse('http://10.0.2.2:5000/getData/${prefs.getString("email")}');
+        Uri.parse('http://127.0.0.1:5000/getData/${prefs.getString("email")}');
     final response = await http.get(url);
     // setState(() {
     //   email = prefs.getString('email');
@@ -34,11 +37,16 @@ class DetailUserState extends State<DetailUser> {
     if (response.statusCode == 200) {
       final emailAcc = json.decode(response.body)["email"];
       final usernameAcc = json.decode(response.body)["username"];
-      final genderAcc = json.decode(response.body)["gender"];
+      final fotoAcc = json.decode(response.body)["foto"];
+      final noTelpAcc = json.decode(response.body)["no_telp"];
+      final alamatAcc = json.decode(response.body)["alamat"];
       setState(() {
         username = usernameAcc;
         email = emailAcc;
         gender = gender;
+        alamat = alamatAcc;
+        noTelp = noTelpAcc;
+        foto = fotoAcc;
       });
     } else {
       showDialog(
@@ -72,18 +80,32 @@ class DetailUserState extends State<DetailUser> {
         TextEditingController(text: email);
     final TextEditingController genderController =
         TextEditingController(text: gender);
+    final TextEditingController fotoController =
+        TextEditingController(text: foto);
+    final TextEditingController noTelpController =
+        TextEditingController(text: noTelp);
+    final TextEditingController alamatController =
+        TextEditingController(text: alamat);
 
     void onButtonPressed() async {
       final email = emailController.text;
       final username = usernameController.text;
+      final foto = fotoController.text;
+      final noTelp = noTelpController.text;
+      final alamat = alamatController.text;
       final prefs = await SharedPreferences.getInstance();
       // prefs.getString("email");
       final url =
-          Uri.parse("http://10.0.2.2:5000/update/${prefs.getString("email")}");
+          Uri.parse("http://127.0.0.1:5000/update/${prefs.getString("email")}");
       // bool rememberMe = isRememberMe;
 
-      final response =
-          await http.post(url, body: {'email': email, 'username': username});
+      final response = await http.post(url, body: {
+        'email': email,
+        'username': username,
+        'foto': foto,
+        'noTelp': noTelp,
+        'alamat': alamat
+      });
 
       if (response.statusCode == 200) {
         showDialog(
@@ -157,6 +179,24 @@ class DetailUserState extends State<DetailUser> {
                 decoration: InputDecoration(labelText: "Email"),
                 textInputAction: TextInputAction.next,
                 controller: emailController,
+              ),
+              TextFormField(
+                autocorrect: true,
+                decoration: InputDecoration(labelText: "Foto Link"),
+                textInputAction: TextInputAction.next,
+                controller: fotoController,
+              ),
+              TextFormField(
+                autocorrect: true,
+                decoration: InputDecoration(labelText: "No Telp"),
+                textInputAction: TextInputAction.next,
+                controller: noTelpController,
+              ),
+              TextFormField(
+                autocorrect: true,
+                decoration: InputDecoration(labelText: "Alamat"),
+                textInputAction: TextInputAction.next,
+                controller: alamatController,
               ),
               Divider(),
               ElevatedButton(

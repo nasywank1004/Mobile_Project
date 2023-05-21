@@ -1,0 +1,69 @@
+{
+   "checksum": "42180344ed1503f858ee8a97c16d9855",
+   "roots": {
+      "bookmark_bar": {
+         "children": [ {
+            "children": [ {
+               "date_added": "13277524194379984",
+               "date_last_used": "0",
+               "guid": "b94dfc75-a5c5-4395-abf0-01cc028002a6",
+               "id": "7",
+               "name": "Lenovo Support",
+               "show_icon": false,
+               "source": "import_fre",
+               "type": "url",
+               "url": "http://support.lenovo.com/"
+            }, {
+               "date_added": "13277524194387336",
+               "date_last_used": "0",
+               "guid": "e50f8a6f-a2dd-4ae4-aa03-a155188ec0a5",
+               "id": "8",
+               "name": "Lenovo",
+               "show_icon": false,
+               "source": "import_fre",
+               "type": "url",
+               "url": "http://www.lenovo.com/"
+            } ],
+            "date_added": "13327822675932591",
+            "date_last_used": "0",
+            "date_modified": "0",
+            "guid": "c483c0ba-0aaf-4d6b-a2a0-d6b1111ad76b",
+            "id": "6",
+            "name": "Lenovo",
+            "source": "import_fre",
+            "type": "folder"
+         } ],
+         "date_added": "13327822670893358",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
+         "id": "1",
+         "name": "Favorites bar",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "other": {
+         "children": [  ],
+         "date_added": "13327822670893362",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
+         "id": "2",
+         "name": "Other favorites",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13327822670893363",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "4cf2e351-0e85-532b-bb37-df045d8f8d0f",
+         "id": "3",
+         "name": "Mobile favorites",
+         "source": "unknown",
+         "type": "folder"
+      }
+   },
+   "version": 1
+}
