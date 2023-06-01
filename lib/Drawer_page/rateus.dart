@@ -45,7 +45,7 @@ class RateUs extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 30),
-            const Text('Rating Bar Change'),
+            const Text('Do you like us?'),
             RatingBar.builder(
                 itemCount: 5,
                 itemSize: 50,
@@ -62,7 +62,7 @@ class RateUs extends StatelessWidget {
                   print(value);
                 }),
             const SizedBox(height: 30),
-            const Text('Do you like us?'),
+            const Text('Rate your experience'),
             RatingBar.builder(
               initialRating: 3,
               itemCount: 5,
