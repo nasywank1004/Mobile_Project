@@ -20,7 +20,7 @@ class _ReservationTableState extends State<ReservationTable> {
 
   Future<void> _fetchReservations() async {
     final response =
-        await http.get(Uri.parse('http://10.0.2.2:5000/reservations'));
+        await http.get(Uri.parse('http://127.0.0.1:5000/reservations'));
     final data = json.decode(response.body)['results'] as List;
 
     setState(() {
@@ -66,6 +66,7 @@ class _ReservationTableState extends State<ReservationTable> {
                 DataColumn(label: Text('Room')),
                 DataColumn(label: Text('Person')),
                 DataColumn(label: Text('Time')),
+                DataColumn(label: Text('Menu')),
               ],
               rows: _reservations
                   .map(
@@ -73,6 +74,7 @@ class _ReservationTableState extends State<ReservationTable> {
                       DataCell(Text(reservation['selectedRoom'])),
                       DataCell(Text(reservation['selectedPerson'])),
                       DataCell(Text(reservation['selectedTime'])),
+                      DataCell(Text(reservation['menu'])),
                     ]),
                   )
                   .toList(),

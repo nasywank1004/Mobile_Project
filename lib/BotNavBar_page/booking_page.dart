@@ -22,6 +22,8 @@ class _HomePageState extends State<HomePage> {
   String? selectedRoom;
   String? selectedPerson;
   String? selectedTime;
+  String? selectedMenu;
+  List _menus = [];
 
   // void _onButtonPressed() {
   // Tampilkan alert dengan nilai inputan
@@ -50,15 +52,26 @@ class _HomePageState extends State<HomePage> {
   //     );
   //   },
   // );
+  Future<void> _fetchMenus() async {
+    final response =
+        await http.get(Uri.parse('http://127.0.0.1:5000/menu/active'));
+    final data = json.decode(response.body)['results'] as List;
+
+    setState(() {
+      _menus = data;
+    });
+  }
+
   Future<void> _submitBooking() async {
-    final url = Uri.parse('http://10.0.2.2:5000/post/test');
+    final url = Uri.parse('http://127.0.0.1:5000/post/test');
 
     final response = await http.post(
       url,
       body: {
         'selectedRoom': selectedRoom,
         'selectedPerson': selectedPerson,
-        'selectedTime': selectedTime
+        'selectedTime': selectedTime,
+        'menu': selectedMenu
       },
     );
 
@@ -120,6 +133,11 @@ class _HomePageState extends State<HomePage> {
   // }
 
   @override
+  void initState() {
+    super.initState();
+    _fetchMenus();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -150,6 +168,35 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(fontSize: 35, color: Colors.white),
                 ),
               ),
+              Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Container(
+                    margin: EdgeInsets.all(15),
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.amber.shade50,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: DropdownButton<String?>(
+                      hint: Text("Menu:"),
+                      value: selectedMenu,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedMenu = value;
+                        });
+                      },
+                      underline: SizedBox(),
+                      isExpanded: true,
+                      items:
+                          _menus.map<DropdownMenuItem<String?>>((dynamic menu) {
+                        final String menuName = menu['nama_menu'] as String;
+                        return DropdownMenuItem<String?>(
+                          value: menuName,
+                          child: Text(menuName),
+                        );
+                      }).toList(),
+                    ),
+                  )),
               Padding(
                 padding: EdgeInsets.all(5),
                 child: Container(

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:reserveeats/BotNavBar_page/menu.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginSignupUI extends StatefulWidget {
   const LoginSignupUI({super.key});
@@ -216,7 +217,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
   Container buildSigninSection() {
     // _note = widget._note;
-    final url = Uri.parse('http://10.0.2.2:5000/login');
+    final url = Uri.parse('http://127.0.0.1:5000/login');
 
     @override
     void dispose() {
@@ -246,11 +247,15 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
         final usernameAcc = json.decode(response.body)["username"];
         // final fotoAcc = json.decode(response.body)["foto"];
         final fotoAcc = json.decode(response.body)["foto"];
+        final passwordAcc = json.decode(response.body)["password"];
+        final roleAcc = json.decode(response.body)["role"];
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('email', emailAcc);
         // final prefs = await SharedPreferences.getInstance();
         await prefs.setString('username', usernameAcc);
         await prefs.setString('foto', fotoAcc);
+        await prefs.setString("password", passwordAcc);
+        await prefs.setString("role", roleAcc);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => HomePage()));
         // showDialog(
@@ -275,26 +280,12 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
         //   },
         // );
       } else {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Hasil'),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: [Text('User Tidak Ditemukan')],
-                ),
-              ),
-              actions: [
-                TextButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
+        Fluttertoast.showToast(
+          msg: 'Akun tidak ditemukan',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.TOP,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
         );
       }
     }
@@ -384,7 +375,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
   Container buildSignupSection() {
     // bool isMale = false;
-    final url = Uri.parse('http://10.0.2.2:5000/register');
+    final url = Uri.parse('http://127.0.0.1:5000/register');
 
     void _onButtonPressed() async {
       final email = emailController.text;
@@ -407,26 +398,12 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
       });
 
       if (response.statusCode == 200) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Hasil'),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: [Text('Register Berhasil, Harap Login Kembali')],
-                ),
-              ),
-              actions: [
-                TextButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
+        Fluttertoast.showToast(
+          msg: 'Registrasi berhasil, harap login kembali',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.TOP,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
         );
         // }
 

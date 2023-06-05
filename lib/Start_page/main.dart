@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reserveeats/Start_page/welcome.dart';
+import 'package:reserveeats/BotNavBar_page/botnavbar.dart';
 
 class Main extends StatelessWidget {
   const Main({super.key});
@@ -15,13 +16,12 @@ class Main extends StatelessWidget {
             height: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(
-                    'https://media-cdn.tripadvisor.com/media/photo-w/17/f5/39/f7/fooood-at-the-food-department.jpg'),
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(Colors.black45, BlendMode.darken)
-              ),
+                  image: NetworkImage(
+                      'https://media-cdn.tripadvisor.com/media/photo-w/17/f5/39/f7/fooood-at-the-food-department.jpg'),
+                  fit: BoxFit.cover,
+                  colorFilter:
+                      ColorFilter.mode(Colors.black45, BlendMode.darken)),
             ),
-            
             child: Center(
               child: Container(
                   padding: EdgeInsets.only(top: 300, left: 30, bottom: 30),
@@ -41,25 +41,24 @@ class Main extends StatelessWidget {
                         color: Colors.white,
                         height: 30,
                         indent: 3,
-                        endIndent:3,
-                        ),
+                        endIndent: 3,
+                      ),
                       Text(
                         'You Click it,\n' + 'We Got It',
                         style: TextStyle(
-                          fontFamily: 'cambay',
-                          color: Colors.white),
+                            fontFamily: 'cambay', color: Colors.white),
                       ),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Welcome()));
+                                  builder: (context) =>
+                                      MyBottomNavigationBar()));
                         },
                         child: Text(
                           'EXPLORE NOW!',
-                          style: TextStyle(
-                            color: Colors.black),
+                          style: TextStyle(color: Colors.black),
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.amber,

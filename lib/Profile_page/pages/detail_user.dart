@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
 import '../providers/Users.dart';
+import 'package:reserveeats/Start_page/loginsignin.dart';
 import 'dart:convert';
 
 class DetailUser extends StatefulWidget {
@@ -18,33 +20,25 @@ class DetailUserState extends State<DetailUser> {
   String? foto;
   String? noTelp;
   String? alamat;
-final TextEditingController usernameController =
-        TextEditingController();
-    final TextEditingController emailController =
-        TextEditingController();
-    final TextEditingController genderController =
-        TextEditingController();
-    final TextEditingController fotoController =
-        TextEditingController();
-    final TextEditingController noTelpController =
-        TextEditingController();
-    final TextEditingController alamatController =
-        TextEditingController();
-  
+  String? password;
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
+  final TextEditingController fotoController = TextEditingController();
+  final TextEditingController noTelpController = TextEditingController();
+  final TextEditingController alamatController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _fetchData();
-    
   }
-
-  
 
   void _fetchData() async {
     final prefs = await SharedPreferences.getInstance();
     final url =
-        Uri.parse('http://10.0.2.2:5000/getData/${prefs.getString("email")}');
+        Uri.parse('http://127.0.0.1:5000/getData/${prefs.getString("email")}');
     final response = await http.get(url);
     // setState(() {
     //   email = prefs.getString('email');
@@ -56,11 +50,13 @@ final TextEditingController usernameController =
       final fotoAcc = json.decode(response.body)["foto"];
       final noTelpAcc = json.decode(response.body)["no_telp"];
       final alamatAcc = json.decode(response.body)["alamat"];
+      final passwordAcc = json.decode(response.body)["password"];
       usernameController.text = usernameAcc;
       emailController.text = emailAcc;
       fotoController.text = fotoAcc;
       noTelpController.text = noTelpAcc;
       alamatController.text = alamatAcc;
+      passwordController.text = passwordAcc;
       setState(() {
         username = usernameAcc;
         email = emailAcc;
@@ -68,6 +64,7 @@ final TextEditingController usernameController =
         alamat = alamatAcc;
         noTelp = noTelpAcc;
         foto = fotoAcc;
+        password = passwordAcc;
       });
     } else {
       showDialog(
@@ -93,20 +90,19 @@ final TextEditingController usernameController =
       );
     }
   }
-  
 
   Widget build(BuildContext context) {
-
     void onButtonPressed() async {
       final email = emailController.text;
       final username = usernameController.text;
       final foto = fotoController.text;
       final noTelp = noTelpController.text;
       final alamat = alamatController.text;
+      final password = passwordController.text;
       final prefs = await SharedPreferences.getInstance();
       // prefs.getString("email");
       final url =
-          Uri.parse("http://10.0.2.2:5000/update/${prefs.getString("email")}");
+          Uri.parse("http://127.0.0.1:5000/update/${prefs.getString("email")}");
       // bool rememberMe = isRememberMe;
 
       final response = await http.post(url, body: {
@@ -114,33 +110,20 @@ final TextEditingController usernameController =
         'username': username,
         'foto': foto,
         'noTelp': noTelp,
-        'alamat': alamat
+        'alamat': alamat,
+        'password': password
       });
 
       if (response.statusCode == 200) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Hasil'),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: [Text('Berhasil Update Data')],
-                ),
-              ),
-              actions: [
-                TextButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
+        Fluttertoast.showToast(
+          msg: 'Profile berhasil diupdate, harap login kembali!',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.TOP,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
         );
-
-        _fetchData();
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => LoginSignupScreen()));
       } else {
         showDialog(
           context: context,
@@ -210,19 +193,25 @@ final TextEditingController usernameController =
                 textInputAction: TextInputAction.next,
                 controller: alamatController,
               ),
+              TextFormField(
+                autocorrect: true,
+                decoration: InputDecoration(labelText: "Password"),
+                textInputAction: TextInputAction.next,
+                controller: passwordController,
+              ),
               Divider(),
               Expanded(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ElevatedButton(
-                onPressed: () {
-                  onButtonPressed();
-                },
-                child: Text("Edit Profile",
-                    style: TextStyle(fontSize: 12, color: Colors.yellow[700])),
-              ),
-                )
-              ),
+                  child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                  onPressed: () {
+                    onButtonPressed();
+                  },
+                  child: Text("Edit Profile",
+                      style:
+                          TextStyle(fontSize: 12, color: Colors.yellow[700])),
+                ),
+              )),
             ],
           ),
         ),

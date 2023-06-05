@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reserveeats/BotNavBar_page/menu_table.dart';
 import 'package:reserveeats/BotNavBar_page/reservation_table.dart';
 import 'package:reserveeats/Drawer_page/rateus.dart';
 import 'package:reserveeats/Profile_page/pages/detail_user.dart';
@@ -8,6 +9,7 @@ import 'package:reserveeats/Cart_page/cartmodel.dart';
 import 'package:reserveeats/Drawer_page/promo.dart';
 import 'package:reserveeats/BotNavBar_page/booking_page.dart';
 import 'package:reserveeats/Profile_page/main.dart';
+import 'package:reserveeats/BotNavBar_page/menu_table.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../BotNavBar_page/myaccount.dart';
@@ -21,6 +23,7 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
   String? username;
   String? email;
   String? foto;
+  String? role;
 
   @override
   void initState() {
@@ -34,6 +37,7 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
       email = prefs.getString('email');
       username = prefs.getString('username');
       foto = prefs.getString('foto');
+      role = prefs.getString("role");
     });
   }
 
@@ -56,7 +60,7 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
                 )),
           ),
           Text(
-            "${username}",
+            "${username} - ${role}",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           Text(
@@ -75,6 +79,23 @@ class MyDrawerList extends StatefulWidget {
 }
 
 class _MyDrawerListState extends State<MyDrawerList> {
+  String? role;
+
+  void _fetchData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      role = prefs.getString("role");
+    });
+
+    print(prefs.getString("role"));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -196,6 +217,27 @@ class _MyDrawerListState extends State<MyDrawerList> {
                 style: TextStyle(color: Colors.black, fontSize: 18),
               )),
         ),
+        Divider(),
+        Opacity(
+          opacity: role == "admin" ? 1.0 : 0.0,
+          child: Container(
+            margin: EdgeInsets.all(6),
+            height: 45,
+            child: TextButton.icon(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MenuTable()));
+                },
+                icon: Icon(
+                  Icons.shopping_cart_outlined,
+                  color: Colors.black,
+                ),
+                label: Text(
+                  "List Menu",
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                )),
+          ),
+        )
       ],
     );
   }
