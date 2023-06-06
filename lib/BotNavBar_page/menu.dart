@@ -13,43 +13,43 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _fetchData();
+    // _fetchData();
   }
 
-  void _fetchData() async {
-    final prefs = await SharedPreferences.getInstance();
-    final email = prefs.getString('email');
+  // void _fetchData() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final email = prefs.getString('email');
 
-    if (email == null) {
-      // Navigator.pushNamed(
-      //     context, '/login'); // ganti dengan nama route untuk halaman login
-      // return;
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Hasil'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: [Text('Kamu Belum Login')],
-              ),
-            ),
-            actions: [
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+  //   if (email == null) {
+  //     // Navigator.pushNamed(
+  //     //     context, '/login'); // ganti dengan nama route untuk halaman login
+  //     // return;
+  //     showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           title: Text('Hasil'),
+  //           content: SingleChildScrollView(
+  //             child: ListBody(
+  //               children: [Text('Kamu Belum Login')],
+  //             ),
+  //           ),
+  //           actions: [
+  //             TextButton(
+  //               child: Text('OK'),
+  //               onPressed: () {
+  //                 Navigator.of(context).pop();
+  //               },
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     );
 
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => LoginSignupScreen()));
-    }
-  }
+  //     Navigator.push(context,
+  //         MaterialPageRoute(builder: (context) => LoginSignupScreen()));
+  //   }
+  // }
 
   Widget build(BuildContext context) {
     return Scaffold(

@@ -38,7 +38,7 @@ class DetailUserState extends State<DetailUser> {
   void _fetchData() async {
     final prefs = await SharedPreferences.getInstance();
     final url =
-        Uri.parse('http://127.0.0.1:5000/getData/${prefs.getString("email")}');
+        Uri.parse('http://10.0.2.2:5000/getData/${prefs.getString("email")}');
     final response = await http.get(url);
     // setState(() {
     //   email = prefs.getString('email');
@@ -102,7 +102,7 @@ class DetailUserState extends State<DetailUser> {
       final prefs = await SharedPreferences.getInstance();
       // prefs.getString("email");
       final url =
-          Uri.parse("http://127.0.0.1:5000/update/${prefs.getString("email")}");
+          Uri.parse("http://10.0.2.2:5000/update/${prefs.getString("email")}");
       // bool rememberMe = isRememberMe;
 
       final response = await http.post(url, body: {

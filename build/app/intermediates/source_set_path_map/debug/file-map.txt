@@ -10,6 +10,7 @@ com.example.reserveeats.app-rs-8 D:\NEW\reserveeats\build\app\generated\res\rs\d
 com.example.reserveeats.app-mergeDebugResources-9 D:\NEW\reserveeats\build\app\intermediates\incremental\debug\mergeDebugResources\merged.dir
 com.example.reserveeats.app-mergeDebugResources-10 D:\NEW\reserveeats\build\app\intermediates\incremental\debug\mergeDebugResources\stripped.dir
 com.example.reserveeats.app-merged_res-11 D:\NEW\reserveeats\build\app\intermediates\merged_res\debug
-com.example.reserveeats.app-packaged_res-12 D:\NEW\reserveeats\build\path_provider_android\intermediates\packaged_res\debug
-com.example.reserveeats.app-packaged_res-13 D:\NEW\reserveeats\build\shared_preferences_android\intermediates\packaged_res\debug
-com.example.reserveeats.app-packaged_res-14 D:\NEW\reserveeats\build\sqflite\intermediates\packaged_res\debug
+com.example.reserveeats.app-packaged_res-12 D:\NEW\reserveeats\build\fluttertoast\intermediates\packaged_res\debug
+com.example.reserveeats.app-packaged_res-13 D:\NEW\reserveeats\build\path_provider_android\intermediates\packaged_res\debug
+com.example.reserveeats.app-packaged_res-14 D:\NEW\reserveeats\build\shared_preferences_android\intermediates\packaged_res\debug
+com.example.reserveeats.app-packaged_res-15 D:\NEW\reserveeats\build\sqflite\intermediates\packaged_res\debug

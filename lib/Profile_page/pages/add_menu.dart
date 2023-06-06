@@ -56,7 +56,7 @@ class _MenuPageState extends State<MenuPage> {
   // );
   Future<void> _fetchMenus() async {
     final response =
-        await http.get(Uri.parse('http://127.0.0.1:5000/menu/active'));
+        await http.get(Uri.parse('http://10.0.2.2:5000/menu/active'));
     final data = json.decode(response.body)['results'] as List;
 
     setState(() {
@@ -65,7 +65,7 @@ class _MenuPageState extends State<MenuPage> {
   }
 
   Future<void> _submitBooking() async {
-    final url = Uri.parse("http://127.0.0.1:5000/menu/add");
+    final url = Uri.parse("http://10.0.2.2:5000/menu/add");
     // bool rememberMe = isRememberMe;
 
     final response = await http.post(url, body: {
