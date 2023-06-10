@@ -54,7 +54,7 @@ class Main extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      MyBottomNavigationBar()));
+                                      Welcome()));
                         },
                         child: Text(
                           'EXPLORE NOW!',

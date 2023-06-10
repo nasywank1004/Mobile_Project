@@ -300,22 +300,6 @@ class _HomePageState extends State<HomePage> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                child: Container(
-                  margin: EdgeInsets.all(15),
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.amber.shade50,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Notes:',
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: ElevatedButton(
                   onPressed: () {
                     _submitBooking();
