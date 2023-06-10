@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:reserveeats/BotNavBar_page/reservation_table.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:reserveeats/Start_page/loginsignin.dart';
 
 class BookingNow extends StatelessWidget {
   @override
@@ -136,6 +138,21 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _fetchMenus();
+    _fetchData();
+  }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _fetchData();
+  // }
+
+  void _fetchData() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getString("email") == null) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => LoginSignupScreen()));
+    }
   }
 
   Widget build(BuildContext context) {

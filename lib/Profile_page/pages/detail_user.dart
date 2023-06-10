@@ -38,13 +38,17 @@ class DetailUserState extends State<DetailUser> {
   void _fetchData() async {
     final prefs = await SharedPreferences.getInstance();
     final url =
-        Uri.parse('http://10.0.2.2:5000/getData/${prefs.getString("email")}');
+        Uri.parse('http://127.0.0.1:5000/getData/${prefs.getString("email")}');
     final response = await http.get(url);
+    print(response.statusCode);
     // setState(() {
     //   email = prefs.getString('email');
     //   username = prefs.getString('username');
     // });
     if (response.statusCode == 200) {
+      // if (json.decode(response.body)["email"] == null) {
+
+      // } else {
       final emailAcc = json.decode(response.body)["email"];
       final usernameAcc = json.decode(response.body)["username"];
       final fotoAcc = json.decode(response.body)["foto"];
@@ -66,28 +70,10 @@ class DetailUserState extends State<DetailUser> {
         foto = fotoAcc;
         password = passwordAcc;
       });
+      // }
     } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Hasil'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: [Text('User Tidak Ditemukan')],
-              ),
-            ),
-            actions: [
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => LoginSignupScreen()));
     }
   }
 

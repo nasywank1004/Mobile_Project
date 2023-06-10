@@ -34,10 +34,16 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
   void _fetchData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      email = prefs.getString('email');
-      username = prefs.getString('username');
+      email = prefs.getString('email') != null
+          ? prefs.getString('email')
+          : 'Kamu Belum Login';
+      username = prefs.getString('username') != null
+          ? prefs.getString('username')
+          : 'No Data';
       foto = prefs.getString('foto');
-      role = prefs.getString("role");
+      role =
+          prefs.getString('role') != null ? prefs.getString('role') : 'No Data';
+      ;
     });
   }
 
@@ -80,11 +86,13 @@ class MyDrawerList extends StatefulWidget {
 
 class _MyDrawerListState extends State<MyDrawerList> {
   String? role;
+  String? foto;
 
   void _fetchData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       role = prefs.getString("role");
+      foto = prefs.getString("foto");
     });
 
     print(prefs.getString("role"));
@@ -100,122 +108,160 @@ class _MyDrawerListState extends State<MyDrawerList> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(
-          margin: EdgeInsets.all(6),
-          height: 45,
-          child: TextButton.icon(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => DetailUser()));
-              },
-              icon: Icon(
-                Icons.people_alt_outlined,
-                color: Colors.black,
-              ),
-              label: Text(
-                "Account",
-                style: TextStyle(color: Colors.black, fontSize: 18),
-              )),
+        Opacity(
+          opacity: foto == null ? 1.0 : 0.0,
+          child: Container(
+            margin: EdgeInsets.all(6),
+            height: 45,
+            child: TextButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LoginSignupScreen()));
+                },
+                icon: Icon(
+                  Icons.login_outlined,
+                  color: Colors.black,
+                ),
+                label: Text(
+                  "Login",
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                )),
+          ),
+        ),
+        Opacity(
+          opacity: foto == null ? 0.0 : 1.0,
+          child: Container(
+            margin: EdgeInsets.all(6),
+            height: 45,
+            child: TextButton.icon(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => DetailUser()));
+                },
+                icon: Icon(
+                  Icons.people_alt_outlined,
+                  color: Colors.black,
+                ),
+                label: Text(
+                  "Account",
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                )),
+          ),
         ),
         Divider(),
-        Container(
-          margin: EdgeInsets.all(6),
-          height: 45,
-          child: TextButton.icon(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Cart(
-                              model: CartModel(),
-                            )));
-              },
-              icon: Icon(
-                Icons.shopping_cart_outlined,
-                color: Colors.black,
-              ),
-              label: Text(
-                "Cart",
-                style: TextStyle(color: Colors.black, fontSize: 18),
-              )),
+        Opacity(
+            opacity: foto == null ? 0.0 : 1.0,
+            child: Container(
+              margin: EdgeInsets.all(6),
+              height: 45,
+              child: TextButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Cart(
+                                  model: CartModel(),
+                                )));
+                  },
+                  icon: Icon(
+                    Icons.shopping_cart_outlined,
+                    color: Colors.black,
+                  ),
+                  label: Text(
+                    "Cart",
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  )),
+            )),
+        Divider(),
+        Opacity(
+            opacity: foto == null ? 0.0 : 1.0,
+            child: Container(
+              margin: EdgeInsets.all(6),
+              height: 45,
+              child: TextButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ReservationTable()));
+                  },
+                  icon: Icon(
+                    Icons.book_outlined,
+                    color: Colors.black,
+                  ),
+                  label: Text(
+                    "Reservation",
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  )),
+            )),
+        Divider(),
+        Opacity(
+          opacity: foto == null ? 0.0 : 1.0,
+          child: Container(
+            margin: EdgeInsets.all(6),
+            height: 45,
+            child: TextButton.icon(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Promo()));
+                },
+                icon: Icon(
+                  Icons.discount_outlined,
+                  color: Colors.black,
+                ),
+                label: Text(
+                  "Promo",
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                )),
+          ),
         ),
         Divider(),
-        Container(
-          margin: EdgeInsets.all(6),
-          height: 45,
-          child: TextButton.icon(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ReservationTable()));
-              },
-              icon: Icon(
-                Icons.book_outlined,
-                color: Colors.black,
-              ),
-              label: Text(
-                "Reservation",
-                style: TextStyle(color: Colors.black, fontSize: 18),
-              )),
+        Opacity(
+          opacity: foto == null ? 0.0 : 1.0,
+          child: Container(
+            margin: EdgeInsets.all(6),
+            height: 45,
+            child: TextButton.icon(
+                onPressed: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  prefs.clear();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LoginSignupScreen()));
+                },
+                icon: Icon(
+                  Icons.logout_outlined,
+                  color: Colors.black,
+                ),
+                label: Text(
+                  "Log Out",
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                )),
+          ),
         ),
         Divider(),
-        Container(
-          margin: EdgeInsets.all(6),
-          height: 45,
-          child: TextButton.icon(
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Promo()));
-              },
-              icon: Icon(
-                Icons.discount_outlined,
-                color: Colors.black,
-              ),
-              label: Text(
-                "Promo",
-                style: TextStyle(color: Colors.black, fontSize: 18),
-              )),
-        ),
-        Divider(),
-        Container(
-          margin: EdgeInsets.all(6),
-          height: 45,
-          child: TextButton.icon(
-              onPressed: () async {
-                final prefs = await SharedPreferences.getInstance();
-                prefs.clear();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => LoginSignupScreen()));
-              },
-              icon: Icon(
-                Icons.logout_outlined,
-                color: Colors.black,
-              ),
-              label: Text(
-                "Log Out",
-                style: TextStyle(color: Colors.black, fontSize: 18),
-              )),
-        ),
-        Divider(),
-        Container(
-          margin: EdgeInsets.all(6),
-          height: 45,
-          child: TextButton.icon(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => RateApp()));
-              },
-              icon: Icon(
-                Icons.star_border_outlined,
-                color: Colors.black,
-              ),
-              label: Text(
-                "Rate Us",
-                style: TextStyle(color: Colors.black, fontSize: 18),
-              )),
+        Opacity(
+          opacity: foto == null ? 0.0 : 1.0,
+          child: Container(
+            margin: EdgeInsets.all(6),
+            height: 45,
+            child: TextButton.icon(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => RateApp()));
+                },
+                icon: Icon(
+                  Icons.star_border_outlined,
+                  color: Colors.black,
+                ),
+                label: Text(
+                  "Rate Us",
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                )),
+          ),
         ),
         Divider(),
         Opacity(
